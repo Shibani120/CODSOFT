@@ -1,0 +1,55 @@
+import tkinter as tk
+from tkinter import messagebox
+
+def add_todo():
+    task_text = entry_task.get()
+    task_date = entry_date.get()
+
+    if not task_text:
+        messagebox.showwarning("Warning", "The to-do text cannot be empty.")
+        return
+
+    todo_frame = tk.Frame(frame_todolist, bd=2, relief="groove", pady=5)
+    todo_frame.pack(fill="x", pady=2, padx=5)
+
+    display_text = f"{task_text}  (Due: {task_date if task_date else 'N/A'})"
+    
+    label_todo = tk.Label(todo_frame, text=display_text, anchor="w")
+    label_todo.pack(side="left", fill="x", expand=True, padx=5)
+
+    delete_button = tk.Button(todo_frame, text="Delete", command=lambda: delete_todo(todo_frame))
+    delete_button.pack(side="right", padx=5)
+
+    entry_task.delete(0, tk.END)
+    entry_date.delete(0, tk.END)
+
+def delete_todo(frame_to_delete):
+    frame_to_delete.destroy()
+
+root = tk.Tk()
+root.title("Python Todo App")
+root.geometry("500x400")
+
+frame_input = tk.Frame(root)
+frame_input.pack(pady=10, padx=10, fill="x")
+
+label_task = tk.Label(frame_input, text="Enter Todo Text:")
+label_task.pack(side="left", padx=5)
+entry_task = tk.Entry(frame_input, width=30)
+entry_task.pack(side="left", expand=True, fill="x")
+
+label_date = tk.Label(frame_input, text="Date:")
+label_date.pack(side="left", padx=5)
+entry_date = tk.Entry(frame_input, width=12)
+entry_date.pack(side="left", padx=5)
+
+add_button = tk.Button(root, text="Add Todo", command=add_todo)
+add_button.pack(pady=5)
+
+separator = tk.Frame(root, height=2, bd=1, relief="sunken")
+separator.pack(fill="x", padx=5, pady=5)
+
+frame_todolist = tk.Frame(root)
+frame_todolist.pack(pady=5, padx=10, fill="both", expand=True)
+
+root.mainloop()
